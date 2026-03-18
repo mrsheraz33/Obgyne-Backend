@@ -12,8 +12,8 @@
 ## Admin Credentials
 | Field | Value |
 |-------|-------|
-| Email | gyneoobs@gmail.com |
-| Password | obsgynesimplified@H26 |
+| Email | ........@gmail.com |
+| Password | .......@H26 |
 | Role | Admin |
 
 ---
@@ -30,8 +30,8 @@ npm install
 `.env` file already included. Variables:
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://mrsheraz325_db_user:sheraz33@cluster0.wjwmcui.mongodb.net/obsgynesimplified?retryWrites=true&w=majority
-JWT_SECRET=OBGyne@Simplified#SecretKey2025
+MONGO_URI=..........
+JWT_SECRET=..........
 JWT_EXPIRE=30d
 NODE_ENV=development
 CLIENT_URL=http://localhost:5173
