@@ -9,7 +9,7 @@ const app = express()
 // Middleware
 app.use(cors({
   origin: [
-    // process.env.CLIENT_URL,
+    process.env.CLIENT_URL,
     "https://www.obsgynesimplified.com",
     "https://obsgynesimplified.com"
   ],
