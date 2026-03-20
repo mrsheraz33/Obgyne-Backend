@@ -8,9 +8,14 @@ const app = express()
 
 // Middleware
 app.use(cors({
-  origin: [process.env.CLIENT_URL || 'http://localhost:5173', 'http://localhost:5174'],
+  origin: [
+    // process.env.CLIENT_URL,
+    "https://www.obsgynesimplified.com",
+    "https://obsgynesimplified.com"
+  ],
   credentials: true,
-}))
+}));
+
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'))
