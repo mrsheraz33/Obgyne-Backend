@@ -9,6 +9,7 @@ const sendToken = (user, code, res) => {
   const u = {
     _id: user._id, name: user.name, email: user.email,
     role: user.role, phone: user.phone, city: user.city, bio: user.bio,
+    isApproved: user.isApproved, // ✅ ADD THIS - so frontend knows approval status
     createdAt: user.createdAt,
   }
   res.status(code).json({ success: true, token, user: u })
@@ -25,7 +26,11 @@ router.post('/register', async (req, res) => {
     const exists = await User.findOne({ email: email.toLowerCase() })
     if (exists)
       return res.status(400).json({ success: false, message: 'Email already registered' })
+    
+    // ✅ New user gets isApproved = false (default)
     const user = await User.create({ name, email, password })
+    
+    // ✅ Send response with isApproved = false
     sendToken(user, 201, res)
   } catch (err) {
     res.status(500).json({ success: false, message: err.message })
@@ -44,6 +49,16 @@ router.post('/login', async (req, res) => {
     const match = await user.matchPassword(password)
     if (!match)
       return res.status(401).json({ success: false, message: 'Invalid email or password' })
+    
+    // ✅ Check if user is approved (except admin)
+    if (!user.isApproved && user.role !== 'admin') {
+      return res.status(403).json({ 
+        success: false, 
+        message: 'Your account is pending admin approval. You will be notified once approved.',
+        isApproved: false 
+      })
+    }
+    
     sendToken(user, 200, res)
   } catch (err) {
     res.status(500).json({ success: false, message: err.message })

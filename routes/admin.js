@@ -34,6 +34,27 @@ router.get('/users', async (req, res) => {
   }
 })
 
+// ✅ NEW: Approve user (admin only)
+router.put('/users/:id/approve', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+    
+    user.isApproved = true
+    await user.save()
+    
+    res.json({ 
+      success: true, 
+      message: `${user.name} has been approved! They can now access videos.`,
+      user 
+    })
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message })
+  }
+})
+
 // PUT update user
 router.put('/users/:id', async (req, res) => {
   try {

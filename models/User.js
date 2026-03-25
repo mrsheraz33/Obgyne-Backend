@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   email:    { type: String, required: [true,'Email required'], unique: true, lowercase: true, trim: true },
   password: { type: String, required: [true,'Password required'], minlength: 6, select: false },
   role:     { type: String, enum: ['student','admin'], default: 'student' },
+  isApproved: { type: Boolean, default: false }, // ← NEW FIELD: Admin approval required
   phone:    { type: String, default: '' },
   city:     { type: String, default: '' },
   bio:      { type: String, default: '' },
@@ -29,7 +30,7 @@ userSchema.methods.matchPassword = async function(entered) {
 
 userSchema.methods.getSignedToken = function() {
   return jwt.sign(
-    { id: this._id, role: this.role },
+    { id: this._id, role: this.role, isApproved: this.isApproved },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRE }
   )
